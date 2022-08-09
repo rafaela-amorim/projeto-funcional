@@ -7,7 +7,7 @@
 
     @returns - An array of objects with no duplicates.
 */
-export function distinct(collection: any[], attributeibute: string): any[] {
+export function distinct<T, K extends keyof T>(collection: T[], attribute: K): any[] {
 
     const head = collection[0];
     const tail = collection.slice(1);
@@ -16,18 +16,18 @@ export function distinct(collection: any[], attributeibute: string): any[] {
 
         return [];
 
-    } else if (elem(head[attributeibute], tail, attributeibute)) {
+    } else if (elem(head[attribute], tail, attribute)) {
 
-        const distinctTail = tail.filter(obj => obj[attributeibute] != head[attributeibute]);
-        return [head, ...distinct(distinctTail, attributeibute)];
+        const distinctTail = tail.filter(obj => obj[attribute] != head[attribute]);
+        return [head, ...distinct(distinctTail, attribute)];
 
     }
 
-    return [head, ...distinct(tail, attributeibute)];
+    return [head, ...distinct(tail, attribute)];
 }
 
-export function elem (aValue: any, collection: any[], attributeibute: string): boolean {
-    const result = collection.filter(obj => obj[attributeibute] === aValue);
+export function elem<T, K extends keyof T>(aValue: any, collection: T[], attribute: K): boolean {
+    const result = collection.filter(obj => obj[attribute] === aValue);
     return result.length > 0;
 }
 
@@ -44,7 +44,7 @@ export function elem (aValue: any, collection: any[], attributeibute: string): b
 /*export function groupBy(collection: any[], attributeibute: string): any[] {
 
 }*/
-export function group_By(collection: any[], attribute: any): any[] {
+export function group_By<T, K extends keyof T>(collection: T[], attribute: K): any[] {
 
     if (collection.length === 0) {
 
@@ -57,6 +57,21 @@ export function group_By(collection: any[], attribute: any): any[] {
       const different = collection.filter((obj) => obj[attribute] !== head[attribute]);
       let val: any = head[attribute];
       return [{ [val]: equal }, ...group_By(different, attribute)];
-      
+
     }
   }
+
+export function orderBy<T, K extends keyof T>(objects: T[], key: K): any {
+  // Null is a result for a nullable or undefined array
+  if (!objects) {
+    return null;
+  }
+
+  if (objects.length <= 1) {
+    return objects;
+  }
+
+  objects.sort((a, b) => (a[key] < b[key] ? -1 : 1));
+
+  return objects
+}
