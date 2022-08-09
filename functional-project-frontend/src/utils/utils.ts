@@ -1,11 +1,11 @@
 /*
-    Receives a collection containing possibly duplicate objects and returns a collection of objects with no duplicates.
-    In this case, the function receives as a parameter a collection of objects and the name of the attributeibute to be considered in this filtering.
+    Receives a collection containing possibly duplicate collection and returns a collection of collection with no duplicates.
+    In this case, the function receives as a parameter a collection of collection and the name of the attributeibute to be considered in this filtering.
 
     @param collection - Object collection to be filtered
     @param attributeibute - attributeibute to be considered in filtering
 
-    @returns - An array of objects with no duplicates.
+    @returns - An array of collection with no duplicates.
 */
 export function distinct<T, K extends keyof T>(collection: T[], attribute: K): any[] {
 
@@ -16,14 +16,9 @@ export function distinct<T, K extends keyof T>(collection: T[], attribute: K): a
 
         return [];
 
-    } else if (elem(head[attribute], tail, attribute)) {
-
-        const distinctTail = tail.filter(obj => obj[attribute] != head[attribute]);
-        return [head, ...distinct(distinctTail, attribute)];
-
-    }
-
-    return [head, ...distinct(tail, attribute)];
+    } 
+    const distinctTail = tail.filter(obj => obj[attribute] != head[attribute]);
+    return [head, ...distinct(distinctTail, attribute)];
 }
 
 export function elem<T, K extends keyof T>(aValue: any, collection: T[], attribute: K): boolean {
@@ -32,8 +27,8 @@ export function elem<T, K extends keyof T>(aValue: any, collection: T[], attribu
 }
 
 /*
-    Receives a collection containing possibly duplicated objects and returns a collection of groups according to some attributeibute/field of the objects in the collection.
-    A group is nothing more than a sub-collection of objects associated with a certain attributeibute/field.
+    Receives a collection containing possibly duplicated collection and returns a collection of groups according to some attributeibute/field of the collection in the collection.
+    A group is nothing more than a sub-collection of collection associated with a certain attributeibute/field.
     Thus, the collection returned by this method has the format [ {value1attributeibute -> [obj1, obj2, obj3, etc]} ] where obji is an object whose value of the given attributeibute corresponds to value1attributeibute.
 
     @param collection - Object collection to be filtered
@@ -61,17 +56,24 @@ export function group_By<T, K extends keyof T>(collection: T[], attribute: K): a
     }
   }
 
-export function orderBy<T, K extends keyof T>(objects: T[], key: K): any {
+/*
+    Receives a collection of collection and an attribute and returns a collection ordered by the given attribute
+
+    @param collection - Object collection to be sorted
+    @param attribute - attribute to be considered in sorting
+
+    @returns - an ordered array
+*/
+export function orderBy<T, K extends keyof T>(collection: T[], attribute: K): any {
   // Null is a result for a nullable or undefined array
-  if (!objects) {
+  if (!collection) {
     return null;
   }
 
-  if (objects.length <= 1) {
-    return objects;
+  if (collection.length <= 1) {
+    return collection;
   }
 
-  objects.sort((a, b) => (a[key] < b[key] ? -1 : 1));
-
-  return objects
+  collection.sort((a, b) => (a[attribute] < b[attribute] ? -1 : 1));
+  return collection;
 }
