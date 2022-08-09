@@ -1,5 +1,6 @@
+import { group } from '@angular/animations';
 import { Component } from '@angular/core';
-import {distinct} from '../utils/utils'
+import {distinct, group_By} from '../utils/utils'
 
 @Component({
   selector: 'app-root',
@@ -27,3 +28,4 @@ const peopleDefault = [
 ];
 
 console.log(distinct(peopleDefault, "name"));
+console.log(group_By(peopleDefault, "age"));
