@@ -1,9 +1,9 @@
 /*
-    Receives a collection containing possibly duplicate collection and returns a collection of collection with no duplicates.
-    In this case, the function receives as a parameter a collection of collection and the name of the attributeibute to be considered in this filtering.
+    Receives a collection containing possibly duplicate objects and returns a collection of objects with no duplicates.
+    In this case, the function receives as a parameter a collection of objects and the name of the attribute to be considered in this filtering.
 
     @param collection - Object collection to be filtered
-    @param attributeibute - attributeibute to be considered in filtering
+    @param attribute - attribute to be considered in filtering
 
     @returns - An array of collection with no duplicates.
 */
@@ -17,7 +17,7 @@ export function distinct<T, K extends keyof T>(collection: T[], attribute: K): a
         return [];
 
     } 
-    const distinctTail = tail.filter(obj => obj[attribute] != head[attribute]);
+    const distinctTail = tail.filter(obj => obj[attribute] !== head[attribute]);
     return [head, ...distinct(distinctTail, attribute)];
 }
 
@@ -27,18 +27,15 @@ export function elem<T, K extends keyof T>(aValue: any, collection: T[], attribu
 }
 
 /*
-    Receives a collection containing possibly duplicated collection and returns a collection of groups according to some attributeibute/field of the collection in the collection.
-    A group is nothing more than a sub-collection of collection associated with a certain attributeibute/field.
-    Thus, the collection returned by this method has the format [ {value1attributeibute -> [obj1, obj2, obj3, etc]} ] where obji is an object whose value of the given attributeibute corresponds to value1attributeibute.
+    Receives a collection containing possibly duplicated objects and returns a collection of groups according to some attribute/field of the objects in the collection.
+    A group is nothing more than a sub-collection of objects associated with a certain attribute/field.
+    Thus, the collection returned by this method has the format [ {value1attribute -> [obj1, obj2, obj3, etc]} ] where obji is an object whose value of the given attribute corresponds to value1attribute.
 
     @param collection - Object collection to be filtered
-    @param attribute - attributeibute to be considered in filtering
+    @param attribute - attribute to be considered in filtering
 
-    @returns - An array of object groups.
+    @returns - An array of object groups
 */
-/*export function groupBy(collection: any[], attributeibute: string): any[] {
-
-}*/
 export function group_By<T, K extends keyof T>(collection: T[], attribute: K): any[] {
 
     if (collection.length === 0) {
@@ -57,7 +54,7 @@ export function group_By<T, K extends keyof T>(collection: T[], attribute: K): a
   }
 
 /*
-    Receives a collection of collection and an attribute and returns a collection ordered by the given attribute
+    Receives a collection of objects and an attribute and returns a collection ordered by the given attribute
 
     @param collection - Object collection to be sorted
     @param attribute - attribute to be considered in sorting
