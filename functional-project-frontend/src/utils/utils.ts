@@ -87,9 +87,9 @@ export function orderBy<T, K extends keyof T>(collection: T[], attribute: K): T[
 
     @returns - the final value of the reduction
 */
-export function fold(reducer: (acc: any, curr: any) => any, init: any, collection: any[]) {
+export function fold<T, K>(reducer: (acc: K, curr: T) => K, init: K, collection: T[]) {
   return collection.reduce(reducer, init);
-}
+}	
 
 /*
     Represents the composition function (high order), corresponding to compose(f1,f2)(arg) = f1(f2(arg)))
