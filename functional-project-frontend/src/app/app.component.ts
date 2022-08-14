@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { distinct, group_By, orderBy } from '../utils/utils';
+import { distinct, group_By, orderBy, orderByDesc } from '../utils/utils';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { IRepository } from '../utils/repository';
-import { observable, Observable } from 'rxjs';
+import { lastValueFrom, observable, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -28,24 +28,20 @@ export class AppComponent {
       .subscribe((resultado) => console.log(resultado));
   }
 
-  forksPopulares() {
+  async forksPopulares() {
 	let listaForks : object[] = [];
-    
-	
-	//`${this.apiURL}/${this.owner}/${this.repository_name}/forks?page=${i}`
-
 	let qtdForks = 406; // modificar isso
 
 	for (let p = 0; p < Math.ceil(qtdForks / 30); p++) {
 		let response = this.http.get(`${this.apiURL}/${this.owner}/${this.repository_name}/forks?page=${p}`);
+		let json : any = await lastValueFrom(response);
 		
-		for (let i = 0; i < 30; i++) {
-			response.subscribe((res : any) => listaForks.push(res));
+		for (let i = 0; i < json.length; i++) {
+			listaForks.push(json[i]);	
 		}
 	}
 
-	// nao ta funcionando
-	console.log(listaForks.length);
-	
+	console.log(orderByDesc<any, string>(listaForks, "stargazers_count").slice(0,10));
+
   }
 }
