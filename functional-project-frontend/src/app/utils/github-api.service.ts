@@ -9,7 +9,7 @@ import { retry, catchError } from 'rxjs/operators'
 
 export class GithubApiService {
 
-  apiURL = 'https://api.github.com/repos'
+  apiURL = 'https://api.github.com'
   token = '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'
 
   httpOptions = {
@@ -21,9 +21,9 @@ export class GithubApiService {
 
   constructor(private http: HttpClient) {}
 
-  getForks(user: string, repo: string, page = 0): Observable<Fork[]> {
+  getForks(user: string, repo: string): Observable<Fork[]> {
     return this.http.get<Fork[]>(
-      this.apiURL + `/${user}/${repo}/forks?page=${page}`,
+      this.apiURL + `/repos/${user}/${repo}/forks`,
       this.httpOptions
     ).pipe(retry(1), catchError(this.handleError))
   }
