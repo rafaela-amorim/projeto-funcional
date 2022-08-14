@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Repositório</th>
+            <th scope="col">Estrelas</th>
+            <th scope="col">Assistindo</th>
+            <th scope="col">Forks</th>
+            <th scope="col">Issues</th>
+            <th scope="col">Criação</th>
+            <th scope="col">Atualização</th>
+            <th scope="col">Downloads</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let fork of filteredForks; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{fork.full_name}}</td>
+            <td>{{fork.stargazers_count}}</td>
+            <td>{{fork.watchers}}</td>
+            <td>{{fork.forks}}</td>
+            <td>{{fork.open_issues}}</td>
+            <td>{{fork.created_at || '-'}}</td>
+            <td>{{fork.updated_at || '-'}}</td>
+            <td>{{fork.has_downloads}}</td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

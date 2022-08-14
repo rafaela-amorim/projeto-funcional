@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+.top-bar {
+    background-color: #F6F6F6;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: 45px;
+}
+
+.top-bar-menu-item {
+    font-family: 'Inter';
+    color: #1c1c1d;
+    font-weight: 400;
+    font-size: 18px;
+    margin-left: 7px;
+}
