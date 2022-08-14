@@ -28,11 +28,18 @@ export class AppComponent {
       .subscribe((resultado) => console.log(resultado));
   }
 
+  qtdForks(url : string) {
+	this.http
+	.get(url)
+	.subscribe((resultado : any) => console.log(resultado.forks));
+  }
+
   async forksPopulares() {
 	let listaForks : object[] = [];
-	let qtdForks = 406; // modificar isso
+	this.qtdForks(`${this.apiURL}/${this.owner}/${this.repository_name}`)
+	let tam = 406; // modificar isso
 
-	for (let p = 0; p < Math.ceil(qtdForks / 30); p++) {
+	for (let p = 0; p < Math.ceil(tam / 30); p++) {
 		let response = this.http.get(`${this.apiURL}/${this.owner}/${this.repository_name}/forks?page=${p}`);
 		let json : any = await lastValueFrom(response);
 		
