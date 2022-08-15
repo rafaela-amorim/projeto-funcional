@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { distinct, group_By, orderBy, orderByDesc } from '../utils/utils';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { IRepository } from '../utils/repository';
-import { lastValueFrom, observable, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { orderByDesc } from './utils/utils';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-root',
