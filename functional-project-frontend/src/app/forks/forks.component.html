@@ -31,8 +31,28 @@
             <td>{{fork.has_downloads}}</td>
             <td>{{fork.language}}</td>
         </tr>
+
+		<tr *ngFor="let fork of issuesForks; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{fork.has_issues}}</td>
+			<td>{{fork.full_name}}</td>
+            <td>{{fork.open_issues}}</td>
+            <td>{{fork.created_at || '-'}}</td>
+            <td>{{fork.has_downloads}}</td>
+            <td>{{fork.language}}</td>
+        </tr>
+
+		
+		<tr *ngFor="let forkaux of groupForksAsGroup; let i = index">
+            <th scope="row">{{i + 1}}</th>
+			<td>{{forkaux.ano}}</td>
+			<td>{{forkaux.full_name}}</td>
+			<td>{{forkaux.created_at || '-'}}</td>
+        </tr>
+		
         </tbody>
+
     </table>
 
-    <app-forks-group [groupedForks]="groupForksAsGroup"></app-forks-group>
+    <!-- <app-forks-group [groupedForks]="groupForksAsGroup"></app-forks-group> -->
 </ng-template>

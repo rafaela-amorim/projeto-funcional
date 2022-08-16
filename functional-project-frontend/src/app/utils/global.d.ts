@@ -21,6 +21,20 @@ declare global {
 		language: string
 	}
 
+	//['#',"Ano de Criação", "Repositório", "Criação", "Estrelas","Assistindo","Forks","Issues", "Downloads","Linguagem"];
+	interface forkAux {
+		ano?: string,
+		full_name?: string,
+		created_at?: Date,
+		// stargazers_count: number,
+		// watchers: number,
+		// has_issues: boolean,
+		// has_downloads: boolean,
+		// open_issues: string,
+		// forks: number,
+		// language: string
+	}
+
 
 	interface IRepository {
 		id: number

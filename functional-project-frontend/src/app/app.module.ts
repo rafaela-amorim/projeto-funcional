@@ -9,6 +9,9 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
 import { ForksComponent } from './forks/forks.component'
 import { ForksGroupComponent } from './forks-group/forks-group.component'
 
+import {MatExpansionModule} from '@angular/material/expansion';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +24,9 @@ import { ForksGroupComponent } from './forks-group/forks-group.component'
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+	MatExpansionModule,
+ BrowserAnimationsModule // botao colapsavel
   ],
   providers: [],
   bootstrap: [AppComponent]

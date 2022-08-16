@@ -53,3 +53,5 @@ tbody tr:first-child td {
 tbody td:last-child {
 	border-right: 0;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
