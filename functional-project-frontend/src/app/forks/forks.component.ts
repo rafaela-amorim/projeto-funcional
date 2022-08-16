@@ -20,20 +20,38 @@ export class ForksComponent implements OnInit{
     users: Record<string, Fork[]>;
     user: string
     repo: string
+	// forks_count: number;
+    forks_populares: Fork[];
 
     constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private githubApi: GithubApiService) {
         this.forks = []
         this.filteredForks = []
+		// this.forks_count= -1;
         this.user = route.snapshot.params['user'];
         this.repo = route.snapshot.params['repository'];
         this.users = {};
+        this.forks_populares = [];
+        
     }
 
     ngOnInit () {
-        this.githubApi.getForks(this.user, this.repo).subscribe((data: Fork[]) => {
+        // this.githubApi.getAllForks(this.user, this.repo).then((data: Fork[]) => {
+        //     this.forks = data
+        //     this.filteredForks = data
+        //     // this.users = group_By(data, (fork: Fork) => fork.user.login);
+        // })
+
+		this.githubApi.getForks(this.user, this.repo, 3).subscribe((data: Fork[]) => {
             this.forks = data
             this.filteredForks = data
             // this.users = group_By(data, (fork: Fork) => fork.user.login);
         })
     }
+
+	forksPopulares() {
+		this.githubApi.forksPopulares(this.user, this.repo).then((response : Fork[]) => {
+			this.filteredForks = response;
+			// console.log("response: " + response)
+		});
+	}
 }
