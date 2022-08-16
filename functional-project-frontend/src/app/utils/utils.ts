@@ -39,7 +39,7 @@ export function elem<T, K extends keyof T>(aValue: any, collection: T[], attribu
 
     @returns - An array of object groups
 */
-export function group_By<T, K extends keyof T>(collection: T[], attribute: K): {}[] {
+export function group_By<T, K extends keyof T>(collection: T[], attribute: K): any[] {
 
     if (collection.length === 0) {
 

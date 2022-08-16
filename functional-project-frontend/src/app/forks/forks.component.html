@@ -8,6 +8,13 @@
 </head>
 <body>
 	<button (click)="forksPopulares()">Forks mais populares</button>
+
+	<button (click)="agrupaPorIssue()">Agrupa por Issues</button>
+
+	<button (click)="distinctLanguage()">Linguagens Diferentes</button>
+
+	<button (click)="forksdeForks()">Quantos Forks de Forks</button>
+
 	<table class="table">
         <thead>
         <tr>
@@ -20,6 +27,7 @@
             <th scope="col">Criação</th>
             <th scope="col">Atualização</th>
             <th scope="col">Downloads</th>
+            <th scope="col">Linguagem</th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +41,7 @@
             <td>{{fork.created_at || '-'}}</td>
             <td>{{fork.updated_at || '-'}}</td>
             <td>{{fork.has_downloads}}</td>
+            <td>{{fork.language}}</td>
         </tr>
         </tbody>
     </table>
