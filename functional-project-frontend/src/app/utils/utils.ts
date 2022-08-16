@@ -57,12 +57,12 @@ export function group_By<T, K extends keyof T>(collection: T[], attribute: K): {
   }
 
 /*
-    Receives a collection of objects and an attribute and returns a collection ordered by the given attribute
+    Receives a collection of objects and an attribute and returns a collection ordered (ascending) by the given attribute
 
     @param collection - Object collection to be sorted
     @param attribute - attribute to be considered in sorting
 
-    @returns - an ordered array
+    @returns - an ordered array (ascending order)
 */
 export function orderBy<T, K extends keyof T>(collection: T[], attribute: K): T[] {
   if (collection.length === 0) {
@@ -77,6 +77,28 @@ export function orderBy<T, K extends keyof T>(collection: T[], attribute: K): T[
   result.sort((a, b) => (a[attribute] < b[attribute] ? -1 : 1));
   return result;
 }
+
+/*
+    Receives a collection of objects and an attribute and returns a collection ordered (descending) by the given attribute
+
+    @param collection - Object collection to be sorted
+    @param attribute - attribute to be considered in sorting
+
+    @returns - an ordered array (descending order)
+*/
+export function orderByDesc<T, K extends keyof T>(collection: T[], attribute: K): T[] {
+	if (collection.length === 0) {
+	  return [];
+	}
+	
+	if (collection.length <= 1) {
+	  return collection;
+	}
+  
+	const result: T[] = [...collection];
+	result.sort((a, b) => (a[attribute] > b[attribute] ? -1 : 1));
+	return result;
+  }
 
 /*
     Reduces an array of objects to a value
