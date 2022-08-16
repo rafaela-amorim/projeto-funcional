@@ -1,0 +1,10 @@
+:host div {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+:host button {
+  margin-right: 5px;
+  margin-bottom: 5px;
+}

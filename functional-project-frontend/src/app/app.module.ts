@@ -7,13 +7,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component'
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { ForksComponent } from './forks/forks.component'
+import { ForksGroupComponent } from './forks-group/forks-group.component'
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MainMenuComponent,
-    ForksComponent
+    ForksComponent,
+    ForksGroupComponent,
   ],
   imports: [
     BrowserModule,

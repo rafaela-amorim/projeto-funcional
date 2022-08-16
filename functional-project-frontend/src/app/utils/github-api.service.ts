@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError, lastValueFrom } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators'
-import { token } from './meutoken';
+import { token } from './token';
 
 // funções utils
 import {orderByDesc, group_By, distinct, fold} from './utils';
@@ -28,21 +28,26 @@ export class GithubApiService {
 
   getForks(user: string, repo: string, page: number): Observable<Fork[]> {
     return this.http.get<Fork[]>(
-      this.apiURL + `/repos/${user}/${repo}/forks?page=${page}`,
+      this.apiURL + `/repos/${user}/${repo}/forks?page=${page}&per_page=100`,
       this.httpOptions
      ).pipe(retry(1), catchError(this.handleError));
   }
 
   async getAllForks(user:string, repo:string): Promise<Fork[]> {
-    const tam = await this.qtdForks(user, repo);
     let result: Fork[] = [];
 
-    for(let page = 1; page <= Math.ceil(tam / 30); page++) {
+    let stopLoop = true;
+    let page = 1;
+    while (stopLoop) {
       let forks = await lastValueFrom(this.getForks(user, repo, page));
+
+      if (forks.length === 0) stopLoop = false;
+
       forks.forEach((elem : Fork) => {
-			// elem.date_string = elem.created_at.toDateString();
-			result.push(elem)
-		});
+        result.push(elem)
+		  });
+
+      page++;
     }
 
     return result;
@@ -66,21 +71,21 @@ export class GithubApiService {
   /*
   */
   async qtdForks(user: string, repo: string): Promise<number> {
-	let forks_count : any = -1;
+    let forks_count : any = -1;
 
-	let json = await lastValueFrom(this.http.get<IRepository> (
-  	  this.apiURL + `/repos/${user}/${repo}`,
-      this.httpOptions
-  	))
-	forks_count = json.forks_count;
+    let json = await lastValueFrom(this.http.get<IRepository> (
+        this.apiURL + `/repos/${user}/${repo}`,
+        this.httpOptions
+      ))
+    forks_count = json.forks_count;
 
 
-	return forks_count;
+    return forks_count;
   }
 
 	async forksPopulares(user: string, repo: string) : Promise<Fork[]> {
-		// let tam = await this.qtdForks(user, repo);
-		console.log("aguardando forks populares");
+		let tam = await this.qtdForks(user, repo);
+		console.log("tamanho " + tam);
 
 		let listaForks : Fork[] = await this.getAllForks(user, repo);
 
@@ -88,7 +93,7 @@ export class GithubApiService {
 		return lista;
 	}
 
-	async agrupaPorIssue(user: string, repo: string) : Promise<Fork[]> {
+  	async agruparPorIssue(user: string, repo: string) : Promise<Fork[]> {
 		// let tam = await this.qtdForks(user, repo);
 		console.log("aguardando agrupa por issues");
 
@@ -113,4 +118,16 @@ export class GithubApiService {
 			0, listaForks);
 	}
 
+	async agrupaPorData(user: string, repo: string) : Promise<any> {
+		let listaForks : any[] = await this.getAllForks(user, repo);
+
+    const result = listaForks.reduce((r, a) => {
+      const year  = new Date(a.created_at).getFullYear()
+      r[year] = r[year] || []
+      r[year].push(a)
+      return r;
+    }, Object.create(null));
+
+    return result;
+	}
 }
