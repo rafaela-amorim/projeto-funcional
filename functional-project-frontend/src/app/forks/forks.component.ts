@@ -111,19 +111,14 @@ export class ForksComponent implements OnInit {
     }
 
     agrupaPorData() {
-		this.cabecalho = ['#',"Ano de Criação", "Repositório", "Criação"] //, "Estrelas","Assistindo","Forks","Issues", "Downloads","Linguagem"];
+		this.cabecalho = ['#',"Ano de Criação", "Repositório", "Criação"]
 		this.filteredForks = [];
 		this.issuesForks = [];
-
-		let obj : forkAux;
 
         this.githubApi.agrupaPorData(this.user, this.repo).then((response: any[]) => {
 			Object.keys(response).forEach((k : string) => {
 				(response[parseInt(k)].forEach((e : Fork) => {
-					obj.ano = k;
-					obj.full_name = e.full_name;
-					obj.created_at = e.created_at;
-					this.groupForksAsGroup.push(obj)
+					this.groupForksAsGroup.push(e)
 				}))
 			})
 

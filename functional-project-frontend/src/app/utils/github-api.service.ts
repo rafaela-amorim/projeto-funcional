@@ -120,10 +120,17 @@ export class GithubApiService {
 		let listaForks : any[] = await this.getAllForks(user, repo);
 
 		const result = listaForks.reduce((r, a) => {
-		const year  = new Date(a.created_at).getFullYear()
-		r[year] = r[year] || []
-		r[year].push(a)
-		return r;
+			let obj: forkAux = {};
+
+			const year  = new Date(a.created_at).getFullYear()
+			r[year] = r[year] || []
+
+			obj.ano = year;
+			obj.full_name = a.full_name;
+			obj.created_at = a.created_at;
+
+			r[year].push(obj)
+			return r;
 		}, Object.create(null));
 
 		return result;
