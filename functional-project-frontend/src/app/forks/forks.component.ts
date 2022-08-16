@@ -55,10 +55,11 @@ export class ForksComponent implements OnInit{
 		});
 	}
 
-	agrupaPorData() {
-		this.githubApi.agrupaPorData(this.user, this.repo).then((response : any[]) => {
+	agrupaPorIssue() {
+		this.githubApi.agrupaPorIssue(this.user, this.repo).then((response : any[]) => {
 			this.filteredForks = response;
-			console.log("response: " + response)
+			// console.log("response: " + response.values())
+			response.forEach((e) => {console.log(e)})
 		});
 	}
 
@@ -67,5 +68,12 @@ export class ForksComponent implements OnInit{
 			this.filteredForks = response;
 			console.log("response: " + response)
 		});
+	}
+
+	forksdeForks() {
+		this.githubApi.qtdForksdeForks(this.user, this.repo).then((response: number) => {
+			alert(response);
+			// console.log(response);
+		})
 	}
 }

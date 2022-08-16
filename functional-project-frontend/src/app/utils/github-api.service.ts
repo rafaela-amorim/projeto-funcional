@@ -5,7 +5,7 @@ import { retry, catchError } from 'rxjs/operators'
 import { token } from './meutoken';
 
 // funções utils
-import {orderByDesc, group_By, distinct} from './utils';
+import {orderByDesc, group_By, distinct, fold} from './utils';
 
 @Injectable({
   providedIn: 'root'
@@ -88,23 +88,29 @@ export class GithubApiService {
 		return lista;
 	}
 
-	async agrupaPorData(user: string, repo: string) : Promise<Fork[]> {
+	async agrupaPorIssue(user: string, repo: string) : Promise<Fork[]> {
 		// let tam = await this.qtdForks(user, repo);
-		console.log("aguardando agrupa por data");
+		console.log("aguardando agrupa por issues");
 
-		/*
-			Agrupar por data de criação
-		*/ 
-		let listaForks : Fork[] = await this.getAllForks(user, repo);
-		return group_By(listaForks, "date_string");
-		
+		let listaForks: Fork[] = await this.getAllForks(user, repo);
+		let grupo = group_By(listaForks, "has_issues");
+
+		let values: Fork[] = Object.values(grupo);
+		return values;		
 	}
 
 	async distinctLanguage(user: string, repo: string) : Promise<Fork[]> {
 		console.log("aguardando distinct languages");
-
 		let listaForks : Fork[] = await this.getAllForks(user, repo);
 		return distinct(listaForks, "language");
+	}
+
+	async qtdForksdeForks(user: string, repo: string) : Promise<number> {
+		console.log("aguardando forks de forks");
+		let listaForks : Fork[] = await this.getAllForks(user, repo);
+		return fold(
+			(acc, curr) => acc + curr.forks,
+			0, listaForks);
 	}
 
 }
