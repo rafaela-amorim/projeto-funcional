@@ -9,7 +9,7 @@
 
     <button (click)="forksdeForks()">Quantos Forks de Forks</button>
 
-    <button (click)="agrupaPorData()">Agrupa por data de criação</button>
+    <button (click)="agruparPorData()">Agrupa por data de criação</button>
 
     <table #stopLoading class="table">
         <thead>
@@ -42,5 +42,7 @@
         </tbody>
     </table>
 
-    <app-forks-group [groupedForks]="groupForksAsGroup"></app-forks-group>
+    <hr> 
+
+    <app-forks-group [groupedForks]="forks"></app-forks-group>
 </ng-template>
