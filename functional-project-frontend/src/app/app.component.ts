@@ -12,21 +12,4 @@ import { retry, catchError } from 'rxjs/operators'
 })
 export class AppComponent {
   title = 'Functional Programming';
-
-  readonly apiURL: string;
-  owner: string = 'globocom';
-  repository_name: string = 'm3u8';
-
-  constructor(private http: HttpClient) {
-    this.apiURL = 'https://api.github.com/repos';
-  }
-
-  listarForks(page = 1) {
-    this.http
-      .get(
-        `${this.apiURL}/${this.owner}/${this.repository_name}/forks?page=${page}`
-      )
-      .subscribe((resultado) => console.log(resultado));
-  }
-
 }

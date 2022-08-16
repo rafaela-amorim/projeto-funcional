@@ -21,7 +21,6 @@ export class ForksComponent implements OnInit {
     users: Record<string, Fork[]>;
     user: string
     repo: string
-    // forks_count: number;
     forks_populares: Fork[];
     groupForksAsGroup: any = {};
     loading: boolean = true;
@@ -33,7 +32,6 @@ export class ForksComponent implements OnInit {
 		
 		this.forks = []
         this.filteredForks = []
-        // this.forks_count= -1;
         this.user = route.snapshot.params['user'];
         this.repo = route.snapshot.params['repository'];
         this.users = {};
@@ -53,14 +51,7 @@ export class ForksComponent implements OnInit {
             this.forks = data
             this.filteredForks = data
             this.loading = false;
-            // this.users = group_By(data, (fork: Fork) => fork.user.login);
         })
-
-        // this.githubApi.getForks(this.user, this.repo, 1).subscribe((data: Fork[]) => {
-        //     this.forks = data
-        //     this.filteredForks = data
-        //     // this.users = group_By(data, (fork: Fork) => fork.user.login);
-        // })
     }
 
     forksPopulares() {
@@ -70,7 +61,6 @@ export class ForksComponent implements OnInit {
 
         this.githubApi.forksPopulares(this.user, this.repo).then((response: Fork[]) => {
             this.filteredForks = response;
-            // console.log("response: " + response)
         });
     }
 
@@ -80,7 +70,8 @@ export class ForksComponent implements OnInit {
 		this.filteredForks = [];
 
 		this.githubApi.agruparPorIssue(this.user, this.repo).then((response: any[]) => {
-			this.issuesForks = response[1]['true'];
+			if (response[1])
+				this.issuesForks = response[1]['true'];
 			(response[0]['false'].forEach((e : Fork) => {
 				this.issuesForks.push(e)
 			}))
@@ -104,7 +95,7 @@ export class ForksComponent implements OnInit {
 		this.groupForksAsGroup = [];
 
         this.githubApi.qtdForksdeForks(this.user, this.repo).then((response: number) => {
-            alert(response);
+            alert(`Quantidade de forks secundários do repositório ${this.user}/${this.repo}: ${response}`);
         })
     }
 

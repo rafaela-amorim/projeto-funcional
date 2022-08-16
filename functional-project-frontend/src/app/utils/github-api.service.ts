@@ -33,9 +33,9 @@ export class GithubApiService {
 
 	async getAllForks(user:string, repo:string): Promise<Fork[]> {
 		let result: Fork[] = [];
-
 		let stopLoop = true;
 		let page = 1;
+
 		while (stopLoop) {
 			let forks = await lastValueFrom(this.getForks(user, repo, page));
 
@@ -66,24 +66,8 @@ export class GithubApiService {
 		});
 	}
 
-	/*
-	*/
-	async qtdForks(user: string, repo: string): Promise<number> {
-		let forks_count : any = -1;
-
-		let json = await lastValueFrom(this.http.get<IRepository> (
-			this.apiURL + `/repos/${user}/${repo}`,
-			this.httpOptions
-		))
-		forks_count = json.forks_count;
-
-		return forks_count;
-	}
-
 	async forksPopulares(user: string, repo: string) : Promise<Fork[]> {
-		let tam = await this.qtdForks(user, repo);
-		console.log("tamanho " + tam);
-
+		console.log("aguardando forks populares");
 		let listaForks : Fork[] = await this.getAllForks(user, repo);
 
 		let lista = orderByDesc(listaForks, "stargazers_count").slice(0,10);
@@ -96,10 +80,7 @@ export class GithubApiService {
 		let listaForks: Fork[] = await this.getAllForks(user, repo);
 		let grupo = group_By(listaForks, "has_issues");
 
-		
 		return grupo;
-		// let values: Fork[] = Object.values(grupo);	
-		// return values;
 	}
 
 	async distinctLanguage(user: string, repo: string) : Promise<Fork[]> {
