@@ -2,9 +2,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError, lastValueFrom } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators'
+import { token } from './meutoken';
 
 // funções utils
-import {orderByDesc} from './utils';
+import {orderByDesc, group_By, distinct} from './utils';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ import {orderByDesc} from './utils';
 export class GithubApiService {
 
   apiURL = 'https://api.github.com'
-  token = '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'
+  token = token;
+  
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -31,14 +33,16 @@ export class GithubApiService {
      ).pipe(retry(1), catchError(this.handleError));
   }
 
-
   async getAllForks(user:string, repo:string): Promise<Fork[]> {
+    const tam = await this.qtdForks(user, repo);
     let result: Fork[] = [];
-	let tam = await this.qtdForks(user, repo);
 
     for(let page = 1; page <= Math.ceil(tam / 30); page++) {
       let forks = await lastValueFrom(this.getForks(user, repo, page));
-      forks.forEach((elem : Fork) => {result.push(elem)});
+      forks.forEach((elem : Fork) => {
+			// elem.date_string = elem.created_at.toDateString();
+			result.push(elem)
+		});
     }
 
     return result;
@@ -75,13 +79,32 @@ export class GithubApiService {
   }
 
 	async forksPopulares(user: string, repo: string) : Promise<Fork[]> {
-		let tam = await this.qtdForks(user, repo);
-		console.log("tamanho " + tam);
+		// let tam = await this.qtdForks(user, repo);
+		console.log("aguardando forks populares");
 
 		let listaForks : Fork[] = await this.getAllForks(user, repo);
 
 		let lista = orderByDesc(listaForks, "stargazers_count").slice(0,10);
 		return lista;
+	}
+
+	async agrupaPorData(user: string, repo: string) : Promise<Fork[]> {
+		// let tam = await this.qtdForks(user, repo);
+		console.log("aguardando agrupa por data");
+
+		/*
+			Agrupar por data de criação
+		*/ 
+		let listaForks : Fork[] = await this.getAllForks(user, repo);
+		return group_By(listaForks, "date_string");
+		
+	}
+
+	async distinctLanguage(user: string, repo: string) : Promise<Fork[]> {
+		console.log("aguardando distinct languages");
+
+		let listaForks : Fork[] = await this.getAllForks(user, repo);
+		return distinct(listaForks, "language");
 	}
 
 }

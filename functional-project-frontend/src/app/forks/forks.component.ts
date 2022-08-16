@@ -54,4 +54,18 @@ export class ForksComponent implements OnInit{
 			// console.log("response: " + response)
 		});
 	}
+
+	agrupaPorData() {
+		this.githubApi.agrupaPorData(this.user, this.repo).then((response : any[]) => {
+			this.filteredForks = response;
+			console.log("response: " + response)
+		});
+	}
+
+	distinctLanguage() {
+		this.githubApi.distinctLanguage(this.user, this.repo).then((response : any[]) => {
+			this.filteredForks = response;
+			console.log("response: " + response)
+		});
+	}
 }
