@@ -23,6 +23,7 @@ export class ForksComponent implements OnInit {
     forks_populares: Fork[];
     groupForksAsGroup: any = {};
     loading: boolean = true;
+	cabecalho: string[];
 
     constructor(private route: ActivatedRoute, private router: Router, private http: HttpClient, private githubApi: GithubApiService) {
         this.forks = []
@@ -32,6 +33,8 @@ export class ForksComponent implements OnInit {
         this.repo = route.snapshot.params['repository'];
         this.users = {};
         this.forks_populares = [];
+
+		this.cabecalho = ['#',"Repositório","Estrelas","Assistindo","Forks","Issues","Criação","Atualização","Downloads","Linguagem"];
 
     }
 
@@ -58,11 +61,15 @@ export class ForksComponent implements OnInit {
     }
 
     agruparPorIssue() {
-        this.githubApi.agruparPorIssue(this.user, this.repo).then((response: any[]) => {
-            this.filteredForks = response;
-            // console.log("response: " + response.values())
-            response.forEach((e) => { console.log(e) })
-        });
+        // this.githubApi.agruparPorIssue(this.user, this.repo).then((response: any[]) => {
+		// 	this.filteredForks = [];
+		// 	this.groupForksAsGroup = response;
+        // });
+		// this.cabecalho = ["Tem issues", "Quantidade"]
+		this.githubApi.agruparPorIssue(this.user, this.repo).then((response: Fork[]) => {
+			this.filteredForks = Object.values(response);
+			console.log(Object.values(response))
+		})
     }
 
     distinctLanguage() {
@@ -81,7 +88,8 @@ export class ForksComponent implements OnInit {
 
     agrupaPorData() {
         this.githubApi.agrupaPorData(this.user, this.repo).then((response: any) => {
-					console.log("response: ", response)
+			console.log("response: ", response)
+			this.filteredForks = [];
             this.groupForksAsGroup = response;
         });
     }
