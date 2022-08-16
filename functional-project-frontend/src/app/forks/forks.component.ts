@@ -75,7 +75,7 @@ export class ForksComponent implements OnInit {
     }
 
     agruparPorIssue() {
-		this.cabecalho = ['#',"Tem issues", "Repositório", "Quantidade", "Criação","Downloads","Linguagem"];
+		this.cabecalho = ['#',"Tem issues", "Repositório", "Criação","Downloads","Linguagem"];
 		this.groupForksAsGroup = [];
 		this.filteredForks = [];
 
@@ -84,7 +84,6 @@ export class ForksComponent implements OnInit {
 			(response[0]['false'].forEach((e : Fork) => {
 				this.issuesForks.push(e)
 			}))
-
 		})
     }
 
@@ -106,38 +105,20 @@ export class ForksComponent implements OnInit {
 
         this.githubApi.qtdForksdeForks(this.user, this.repo).then((response: number) => {
             alert(response);
-            // console.log(response);
         })
     }
 
     agrupaPorData() {
-		this.cabecalho = ['#',"Ano de Criação", "Repositório", "Criação"] //, "Estrelas","Assistindo","Forks","Issues", "Downloads","Linguagem"];
+		this.cabecalho = ['#',"Ano de Criação", "Repositório", "Criação"]
 		this.filteredForks = [];
 		this.issuesForks = [];
-
-		let obj : forkAux;
 
         this.githubApi.agrupaPorData(this.user, this.repo).then((response: any[]) => {
 			Object.keys(response).forEach((k : string) => {
 				(response[parseInt(k)].forEach((e : Fork) => {
-					obj.ano = k;
-					obj.full_name = e.full_name;
-					obj.created_at = e.created_at;
-					this.groupForksAsGroup.push(obj)
+					this.groupForksAsGroup.push(e)
 				}))
 			})
-
-			// this.issuesForks = response[1]['true'];
-			// (response[0]['false'].forEach((e : Fork) => {
-			// 	this.issuesForks.push(e)
-			// }))
-			
-			
-            // this.groupForksAsGroup = response;
-
-			// console.log(response)
-			// console.log(Object.keys(response))
-			// console.log(response[2016])
         });
     }
 }
