@@ -13,18 +13,10 @@
 
     <table #stopLoading class="table">
         <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Repositório</th>
-            <th scope="col">Estrelas</th>
-            <th scope="col">Assistindo</th>
-            <th scope="col">Forks</th>
-            <th scope="col">Issues</th>
-            <th scope="col">Criação</th>
-            <th scope="col">Atualização</th>
-            <th scope="col">Downloads</th>
-            <th scope="col">Linguagem</th>
-        </tr>
+		<tr>
+			<th *ngFor="let item of cabecalho">{{item}}</th>
+		</tr> 
+
         </thead>
         <tbody>
         <tr *ngFor="let fork of filteredForks; let i = index">
