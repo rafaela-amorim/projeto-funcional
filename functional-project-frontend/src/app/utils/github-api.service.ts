@@ -96,8 +96,10 @@ export class GithubApiService {
 		let listaForks: Fork[] = await this.getAllForks(user, repo);
 		let grupo = group_By(listaForks, "has_issues");
 
-		let values: Fork[] = Object.values(grupo);	
-		return values;
+		
+		return grupo;
+		// let values: Fork[] = Object.values(grupo);	
+		// return values;
 	}
 
 	async distinctLanguage(user: string, repo: string) : Promise<Fork[]> {
