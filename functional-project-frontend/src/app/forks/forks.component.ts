@@ -75,7 +75,7 @@ export class ForksComponent implements OnInit {
     }
 
     agruparPorIssue() {
-		this.cabecalho = ['#',"Tem issues", "Repositório", "Quantidade", "Criação","Downloads","Linguagem"];
+		this.cabecalho = ['#',"Tem issues", "Repositório", "Criação","Downloads","Linguagem"];
 		this.groupForksAsGroup = [];
 		this.filteredForks = [];
 
@@ -84,7 +84,6 @@ export class ForksComponent implements OnInit {
 			(response[0]['false'].forEach((e : Fork) => {
 				this.issuesForks.push(e)
 			}))
-
 		})
     }
 
@@ -106,7 +105,6 @@ export class ForksComponent implements OnInit {
 
         this.githubApi.qtdForksdeForks(this.user, this.repo).then((response: number) => {
             alert(response);
-            // console.log(response);
         })
     }
 
@@ -121,18 +119,6 @@ export class ForksComponent implements OnInit {
 					this.groupForksAsGroup.push(e)
 				}))
 			})
-
-			// this.issuesForks = response[1]['true'];
-			// (response[0]['false'].forEach((e : Fork) => {
-			// 	this.issuesForks.push(e)
-			// }))
-			
-			
-            // this.groupForksAsGroup = response;
-
-			// console.log(response)
-			// console.log(Object.keys(response))
-			// console.log(response[2016])
         });
     }
 }
